@@ -18,6 +18,7 @@ Module.register("MMM-GoogleFit", {
     stepCountLabel: false,
     useIcons: true,
     displayWeight: true,
+    weightDecimalPlaces: 0,
     colors: [
       "#EEEEEE",
       "#1E88E5",
@@ -109,7 +110,7 @@ Module.register("MMM-GoogleFit", {
                 total *= 2.20462;
               }
 
-              total = total.toFixed(0);
+              total = total.toFixed(this.config.weightDecimalPlaces);
             } else {
               total = undefined;
             }
