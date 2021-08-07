@@ -17,6 +17,7 @@ Module.register("MMM-GoogleFit", {
     fontSize: 18,
     stepCountLabel: false,
     useIcons: true,
+    displayStepCount: true,
     displayWeight: true,
     weightDecimalPlaces: 0,
     colors: [
@@ -184,7 +185,7 @@ Module.register("MMM-GoogleFit", {
       chartWrapper.style.cssText = "float: right;";
 
       // Add in walking icon
-      if (this.config.useIcons) {
+      if (this.config.useIcons && this.config.displayStepCount) {
         var label = document.createElement("div");
         label.style.cssText = "float: left; width: " + totalSize + "px; text-align: center; line-height: 0px; padding-top: " + (totalSize / 2 - 10) + "px"; // 10 is 1/2 of 20px tall icon
 
@@ -196,45 +197,47 @@ Module.register("MMM-GoogleFit", {
       }
 
       // Create chart canvas
-      var chart = document.createElement("div");
-      chart.id = "google-fit-chart";
-      chart.style.cssText = "float: right;";
+      if (this.config.displayStepCount) {
+        var chart = document.createElement("div");
+        chart.id = "google-fit-chart";
+        chart.style.cssText = "float: right;";
 
-      Highcharts.chart(chart, {
-        title: {
-          text: null
-        },
-        chart: {
-          width: this.config.chartWidth,
-          height: totalSize,
-          backgroundColor: null,
-          plotShadow: false,
-          margin: 0
-        },
-        plotOptions: {
-          pie: {
-            dataLabels: {
-              enabled: false
-            },
-            states: {
-              hover: {
+        Highcharts.chart(chart, {
+          title: {
+            text: null
+          },
+          chart: {
+            width: this.config.chartWidth,
+            height: totalSize,
+            backgroundColor: null,
+            plotShadow: false,
+            margin: 0
+          },
+          plotOptions: {
+            pie: {
+              dataLabels: {
                 enabled: false
+              },
+              states: {
+                hover: {
+                  enabled: false
+                }
               }
             }
+          },
+          series: series,
+          credits: {
+            enabled: false
+          },
+          tooltip: {
+            enabled: false
           }
-        },
-        series: series,
-        credits: {
-          enabled: false
-        },
-        tooltip: {
-          enabled: false
-        }
-      });
+        });
 
-      // Append chart
-      chartWrapper.appendChild(chart);
-      wrapper.appendChild(chartWrapper);
+        // Append chart
+        chartWrapper.appendChild(chart);
+        wrapper.appendChild(chartWrapper);
+      }
 
       var clear1 = document.createElement("div");
       clear1.style.cssText = "clear: both;";
